@@ -1,0 +1,119 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/************************
+*
+* STYlES FOR THE PAGE
+*
+*************************/
+body {
+	font-family: helvetica, sans-serif;
+}
+.section-body {
+	width: 90%;
+	max-width: 540px;
+	margin: 2em auto;
+}
+.meme-text {
+	font-size: 32px;
+	margin-bottom: 1em;
+	line-height: 1.4;
+}
+.meme-image {
+	width: 100%;
+	max-width: 540px;
+}
+.buttons-container {
+	margin: 1em auto;
+	text-align: center;
+}
+.button {
+	line-height: 1;
+	font-size: 24px;
+	padding: 10px;
+	border: 1px solid #333;
+	color: #333;
+	text-decoration: none;
+	display: inline-block;
+	transition: all 0.33s ease;
+	margin: 0.4em;
+}
+.button:hover {
+	background-color: #333;
+	color: white;
+}
+.overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+	visibility: hidden;
+}
+.overlay-inner {
+	width: 90%;
+	max-width: 440px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+}
+.overlay-inner h1 {
+	font-size: 48px;
+	margin-bottom: 1em;
+	font-weight: 800;
+}
+.overlay-inner p {
+	font-size: 24px;
+	line-height: 1.4;
+	font-weight: 100;
+}
