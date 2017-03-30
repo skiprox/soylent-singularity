@@ -27,6 +27,8 @@ or, if you want to get fancy,
 grunt watch
 ```
 
+You'll need to create a `twitter-credentials.json` file that looks like `twitter-credentials.example.json`, but with actual info in there.
+
 Finally, to get this running locally, you'll need to do:
 
 ```
