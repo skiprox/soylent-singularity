@@ -3,7 +3,6 @@
 // Requires and needs
 var socket = io();
 var Soylent = require('./../soylent-faq');
-var TwitterCredentials = require('./../twitter-credentials.json');
 var fs = require('node-fs');
 
 // The mo' f'in hearbeat
