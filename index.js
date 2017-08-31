@@ -9,6 +9,7 @@ let nodeScraperToText = require('node-scraper-to-text');
 
 class TwitterBot {
 	constructor() {
+		// Store references
 		this.sentences = [];
 		this.credentials = {
 			consumerKey: null,
@@ -17,6 +18,7 @@ class TwitterBot {
 			accessTokenSecret: null
 		};
 		this.twitterConnection = null;
+		// Call function to store twitter sentences
 		this.storeTwitterSentences({
 			shouldSplit: true,
 			urls: [
@@ -38,6 +40,8 @@ class TwitterBot {
 			],
 			save: false
 		}).then(() => {
+			// When the promise for storing the sentences is complete,
+			// we call the rest of the functions
 			this.setupPorts();
 			this.storeCredentials();
 			this.createTwitterConnection();
