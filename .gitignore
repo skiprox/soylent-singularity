@@ -2,3 +2,4 @@ node_modules
 npm-debug.log
 twitter-credentials.json
 public/app.built.js
+package-lock.json

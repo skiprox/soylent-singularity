@@ -1,60 +1,109 @@
-var jetpack = require('fs-jetpack');
-var express = require('express');
-var app = express();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
-var Twit = require('twit');
-var fs = require('node-fs');
+let jetpack = require('fs-jetpack');
+let express = require('express');
+let app = express();
+let http = require('http').createServer(app);
+let io = require('socket.io')(http);
+let Twit = require('twit');
+let fs = require('node-fs');
+let nodeScraperToText = require('node-scraper-to-text');
 
-var TwitterFantasyBot = (function() {
-
-	var Tweet,
-		consumerKey,
-		consumerSecret,
-		accessToken,
-		accessTokenSecret,
-		tweetSentence = '',
-		storedUsername = null,
-		myUsername = 'soylentmemes';
-
-	var setupPorts = function() {
+class TwitterBot {
+	constructor() {
+		this.sentences = [];
+		this.credentials = {
+			consumerKey: null,
+			consumerSecret: null,
+			accessToken: null,
+			accessTokenSecret: null
+		};
+		this.twitterConnection = null;
+		this.storeTwitterSentences({
+			shouldSplit: true,
+			urls: [
+				'https://faq.soylent.com/hc/en-us/articles/212831963-How-Soylent-makes-a-difference',
+				'https://faq.soylent.com/hc/en-us/articles/212767043-What-is-Soylent-',
+				'https://faq.soylent.com/hc/en-us/articles/212769443-Why-Soy-Protein-',
+				'https://faq.soylent.com/hc/en-us/articles/212769723-Expiration-and-shelf-life',
+				'https://faq.soylent.com/hc/en-us/articles/200332079-Can-I-lose-weight-on-Soylent-',
+				'https://faq.soylent.com/hc/en-us/articles/204409635-Preparing-Soylent-Powder-with-the-legacy-measuring-scoop'
+			],
+			tags: [
+				'p',
+				'h1',
+				'h2',
+				'h3',
+				'h4',
+				'h5',
+				'h6'
+			],
+			save: false
+		}).then(() => {
+			this.setupPorts();
+			this.storeCredentials();
+			this.createTwitterConnection();
+			this.listenToPort();
+			this.setupListener();
+			this.onIO();
+		});
+	}
+	setupPorts() {
 		app.set('port', (process.env.PORT || 5000));
 		app.use(express.static(__dirname + '/'));
-	};
-
-	var storeCredentials = function() {
-		var jsonFile = jetpack.read('twitter-credentials.json', 'json');
-		consumerKey = jsonFile["consumer_key"];
-		consumerSecret = jsonFile["consumer_secret"];
-		accessToken = jsonFile["access_token"];
-		accessTokenSecret = jsonFile["access_token_secret"];
-	};
-
-	var createTwitterConnection = function() {
-		Tweet = new Twit({
-			consumer_key: consumerKey,
-			consumer_secret: consumerSecret,
-			access_token: accessToken,
-			access_token_secret: accessTokenSecret
+	}
+	storeTwitterSentences(options) {
+		return new nodeScraperToText(options).then((data) => {
+			this.sentences = data;
 		});
-	};
-
-	var listenToPort = function() {
-		http.listen(app.get('port'), function() {
+	}
+	storeCredentials() {
+		const jsonFile = jetpack.read('twitter-credentials.json', 'json');
+		this.credentials.consumerKey = jsonFile["consumer_key"];
+		this.credentials.consumerSecret = jsonFile["consumer_secret"];
+		this.credentials.accessToken = jsonFile["access_token"];
+		this.credentials.accessTokenSecret = jsonFile["access_token_secret"];
+	}
+	createTwitterConnection() {
+		this.twitterConnection = new Twit({
+			consumer_key: this.credentials.consumerKey,
+			consumer_secret: this.credentials.consumerSecret,
+			access_token: this.credentials.accessToken,
+			access_token_secret: this.credentials.accessTokenSecret
+		});
+	}
+	listenToPort() {
+		http.listen(app.get('port'), () => {
 			console.log("Node app is running at localhost:" + app.get('port'));
 		});
-	};
-
-	var setupListener = function() {
-		app.get('/', function(req, res) {
+	}
+	setupListener() {
+		app.get('/', (req, res) => {
 			res.sendfile('public/index.html');
 		});
-	};
-
-	var postTweet = function(data) {
-		var STORED_DATA = data;
-		var b64content = fs.readFileSync(STORED_DATA.image_path, { encoding: 'base64' });
-		Tweet.post('media/upload', { media_data: b64content }, function (err, data, response) {
+	}
+	onIO() {
+		io.on('connection', socket => {
+			socket.on('tweet button clicked', data => {
+				try {
+					this.postTweet(data);
+				}
+				catch (e) {
+					console.log(e);
+				}
+			});
+			socket.on('check latest tweets', tweetData => {
+				try {
+					this.searchTweets(tweetData);
+				}
+				catch(e) {
+					console.log(e);
+				}
+			});
+		});
+	}
+	postTweet(data) {
+		const STORED_DATA = data;
+		const b64content = fs.readFileSync(STORED_DATA.image_path, { encoding: 'base64' });
+		this.twitterConnection.post('media/upload', { media_data: b64content }, (err, data, response) => {
 			if (!err) {
 				// now we can assign alt text to the media, for use by screen readers and
 				// other text-based presentations and interpreters
@@ -62,11 +111,11 @@ var TwitterFantasyBot = (function() {
 				var altText = "Alt Text Hello World"
 				var meta_params = { status: STORED_DATA.meme_text, media_id: mediaIdStr, alt_text: { text: altText } }
 
-				Tweet.post('media/metadata/create', meta_params, function (err, data, response) {
+				this.twitterConnection.post('media/metadata/create', meta_params, (err, data, response) => {
 					if (!err) {
-						// now we can reference the media and post a tweet (media will attach to the tweet)
+						// now we can reference the media and post a this.twitterConnection (media will attach to the this.twitterConnection)
 						var params = { status: STORED_DATA.meme_text, media_ids: [mediaIdStr] }
-						Tweet.post('statuses/update', params, function (err, data, response) {
+						this.twitterConnection.post('statuses/update', params, (err, data, response) => {
 							console.log(data);
 							io.emit('new tweet', {
 								tweet: data
@@ -83,53 +132,6 @@ var TwitterFantasyBot = (function() {
 			}
 		})
 	};
+}
 
-	searchTweets = function(tweetData) {
-		Tweet.get('search/tweets', { q: 'soylent', count: 1 }, function(err, data, response) {
-			var status = data.statuses[0];
-			if (status && status.user && status.user.screen_name !== storedUsername && status.user.screen_name !== myUsername) {
-				tweetData.meme_text = '.@' + status.user.screen_name + ' ' + tweetData.meme_text;
-				storedUsername = status.user.screen_name;
-				postTweet(tweetData);
-			}
-			else {
-				io.emit('already tweeted at this user');
-			}
-		});
-	};
-
-	var onIO = function() {
-		io.on('connection', function(socket) {
-			socket.on('tweet button clicked', function(data) {
-				try {
-					postTweet(data);
-				}
-				catch (e) {
-					console.log(e);
-				}
-			});
-			socket.on('check latest tweets', function(tweetData) {
-				try {
-					searchTweets(tweetData);
-				}
-				catch(e) {
-					console.log(e);
-				}
-			});
-		});
-	};
-
-	return {
-		init: function() {
-			setupPorts();
-			storeCredentials();
-			createTwitterConnection();
-			listenToPort();
-			setupListener();
-			onIO();
-		}
-	}
-
-}());
-
-TwitterFantasyBot.init();
+new TwitterBot();
