@@ -3,7 +3,7 @@
 #### Soylent is a new option for maintaining a balanced state of ideal nutrition, just like traditional food.
 ![Alt text](/public/stock_screaming/23.jpg?raw=true)
 
-Use it [online](http://soylent-singularity.herokuapp.com/)
+Use it [online](http://soylent.twotabsofacid.com/)
 
 Or check out the [Twitter](https://twitter.com/soylentmemes)
 
