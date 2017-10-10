@@ -75,14 +75,17 @@ body {
 }
 .button {
 	line-height: 1;
-	font-size: 24px;
-	padding: 10px;
-	border: 1px solid #333;
-	color: #333;
-	text-decoration: none;
-	display: inline-block;
-	transition: all 0.33s ease;
-	margin: 0.4em;
+    font-size: 24px;
+    padding: 10px;
+    border: 1px solid #333;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    transition: all 0.33s ease;
+    width: 90%;
+    box-sizing: border-box;
+    margin: 0.74em auto;
+    text-align: center;
 }
 .button:hover {
 	background-color: #333;
