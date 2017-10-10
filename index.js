@@ -38,7 +38,7 @@ class TwitterBot {
 				'h5',
 				'h6'
 			],
-			save: false
+			save: './soylent-faq.js'
 		}).then(() => {
 			// When the promise for storing the sentences is complete,
 			// we call the rest of the functions

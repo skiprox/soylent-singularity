@@ -35,7 +35,7 @@ var App = (function() {
 		memeImageElem = document.getElementById('meme-image');
 		waitingScreen = document.getElementById('waiting-screen');
 		notificationScreen = document.getElementById('notification-screen');
-		memesTextArray = Soylent.faq;
+		memesTextArray = Soylent.sentences;
 		memesTextArrayLen = memesTextArray.length;
 		composeTweet();
 		addListeners();
@@ -58,12 +58,12 @@ var App = (function() {
 		}
 		else {
 			// The tweet was successful
-			stopWaiting(true, 'You just tweeted that dank meme.');
+			stopWaiting(true, 'You just tweeted!');
 		}
 	};
 
 	var onAlreadyTweetedAtUser = function() {
-		stopWaiting(false, 'You have already tweeted at this user');
+		stopWaiting(false, 'You have already tweeted at this user.');
 	};
 
 	var onGenerateButtonClicked = function(e) {

@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
   "author": "skiprox",
   "license": "ISC",
   "dependencies": {
@@ -13,7 +10,7 @@
     "fs-jetpack": "^0.7.1",
     "http": "0.0.0",
     "node-fs": "^0.1.7",
-    "node-scraper-to-text": "^1.0.0",
+    "node-scraper-to-text": "^1.0.1",
     "simple-ajax": "^2.5.1",
     "socket.io": "^1.4.5",
     "superagent": "^2.0.0",
