@@ -1,3 +1,5 @@
+'use strict';
+
 let jetpack = require('fs-jetpack');
 let express = require('express');
 let app = express();
