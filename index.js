@@ -18,40 +18,15 @@ class TwitterBot {
 			accessTokenSecret: null
 		};
 		this.twitterConnection = null;
-		// Call function to store twitter sentences
-		this.storeTwitterSentences({
-			shouldSplit: true,
-			urls: [
-				'https://faq.soylent.com/hc/en-us/articles/212831963-How-Soylent-makes-a-difference',
-				'https://faq.soylent.com/hc/en-us/articles/212767043-What-is-Soylent-',
-				'https://faq.soylent.com/hc/en-us/articles/212769443-Why-Soy-Protein-',
-				'https://faq.soylent.com/hc/en-us/articles/212769723-Expiration-and-shelf-life',
-				'https://faq.soylent.com/hc/en-us/articles/200332079-Can-I-lose-weight-on-Soylent-',
-				'https://faq.soylent.com/hc/en-us/articles/204409635-Preparing-Soylent-Powder-with-the-legacy-measuring-scoop'
-			],
-			tags: [
-				'p',
-				'h1',
-				'h2',
-				'h3',
-				'h4',
-				'h5',
-				'h6'
-			],
-			save: './soylent-faq.js'
-		}).then(() => {
-			// When the promise for storing the sentences is complete,
-			// we call the rest of the functions
-			this.setupPorts();
-			this.storeCredentials();
-			this.createTwitterConnection();
-			this.listenToPort();
-			this.setupListener();
-			this.onIO();
-		});
+		this.setupPorts();
+		this.storeCredentials();
+		this.createTwitterConnection();
+		this.listenToPort();
+		this.setupListener();
+		this.onIO();
 	}
 	setupPorts() {
-		app.set('port', (process.env.PORT || 5000));
+		app.set('port', (process.env.PORT || 5001));
 		app.use(express.static(__dirname + '/'));
 	}
 	storeTwitterSentences(options) {

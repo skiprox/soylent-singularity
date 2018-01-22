@@ -2,6 +2,11 @@
   "name": "soylent-singularity",
   "version": "1.0.0",
   "description": "",
+  "scripts": {
+    "setup": "node setup.js",
+    "start": "node setup.js && grunt && node index.js",
+    "watch": "grunt watch"
+  },
   "main": "index.js",
   "author": "skiprox",
   "license": "ISC",
