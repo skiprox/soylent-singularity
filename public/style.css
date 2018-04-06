@@ -85,6 +85,18 @@ body {
     opacity: 1;
     transform: rotate(0deg) scale(1, 1);
 }
+@media screen and (max-width: 1020px) {
+	.meme-text {
+		font-size: 28px;
+		-webkit-text-stroke: 3px transparent;
+	}
+}
+@media screen and (max-width: 720px) {
+	.meme-text {
+		font-size: 22px;
+		-webkit-text-stroke: 2px transparent;
+	}
+}
 .meme-text.hidden {
 	opacity: 0;
 	transform: rotate(-27deg) scale(0.2, 0.2);
