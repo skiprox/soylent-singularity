@@ -9,13 +9,15 @@
 <body>
 	<section class="section-head"></section>
 	<section class="section-body">
-		<h1 id="meme-text" class="meme-text">Hello World</h1>
-		<img src="" id="meme-image" class="meme-image">
+		<div id="meme-image" class="meme-image"></div>
+		<div class="meme-text-container">
+			<h1 id="meme-text" class="meme-text hidden">Hello World</h1>
+		</div>
 		<div class="buttons-container">
 			<a href="#" id="generate-button" class="button">Generate Another</a>
-			<a href="#" id="tweet-button" class="button">Tweet!</a>
-			<a href="#" id="tweet-at-soylent-button" class="button">Tweet @soylent!</a>
-			<a href="https://twitter.com/soylentmemes"  target="_blank" class="button">See it in action!</a>
+			<a href="#" id="tweet-button" class="button">Tweet</a>
+			<a href="#" id="tweet-at-soylent-button" class="button">Tweet @soylent</a>
+			<a href="https://twitter.com/soylentmemes"  target="_blank" class="button">See it in action</a>
 		</div>
 	</section>
 	<section id="waiting-screen" class="waiting-screen overlay">
@@ -25,7 +27,7 @@
 	</section>
 	<section id="notification-screen" class="notification-screen overlay">
 		<div class="overlay-inner">
-			<h1>Hey!</h1>
+			<h1>Hey</h1>
 			<p></p>
 		</div>
 	</section>

@@ -55,7 +55,7 @@ var App = (function() {
 		}
 		else {
 			// The tweet was successful
-			stopWaiting(true, 'You just tweeted!');
+			stopWaiting(true, 'You just tweeted.');
 		}
 	};
 
@@ -85,15 +85,20 @@ var App = (function() {
 	};
 
 	var setMemeText = function() {
+		memeTextElem.classList.add('hidden');
 		var randomInt = Math.floor(Math.random() * memesTextArrayLen);
 		MEME_TEXT = memesTextArray[randomInt];
 		memeTextElem.innerText = MEME_TEXT;
+		setTimeout(() => {
+			memeTextElem.classList.remove('hidden');
+		}, 300);
 	};
 
 	var setMemeImage = function() {
 		var randomInt = Math.floor(Math.random() * memesArrayLen);
 		MEME_IMAGE_PATH = imgPath + randomInt + '.jpg';
-		memeImageElem.setAttribute('src', MEME_IMAGE_PATH);
+		// memeImageElem.setAttribute('src', MEME_IMAGE_PATH);
+		memeImageElem.style.backgroundImage = `url("${MEME_IMAGE_PATH}")`;
 	};
 
 	var tweetIt = function() {
