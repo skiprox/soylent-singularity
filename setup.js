@@ -19,7 +19,7 @@ let tags = [
 	'h5',
 	'h6'
 ];
-let save = './soylent-faq.js';
+let save = './public/soylent-faq.js';
 
 class Setup {
 	constructor() {

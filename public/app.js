@@ -2,7 +2,7 @@
 
 // Requires and needs
 var socket = io();
-var Soylent = require('./../soylent-faq');
+var Soylent = require('./soylent-faq');
 
 // The mo' f'in hearbeat
 socket.heartbeatTimeout = 20000;
