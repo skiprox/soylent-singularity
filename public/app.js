@@ -9,7 +9,8 @@ socket.heartbeatTimeout = 20000;
 
 var App = (function() {
 
-	var ajax,
+	var socketID,
+		ajax,
 		imgPath = 'public/stock_screaming/',
 		memesArrayLen = 42,
 		memesTextArray,
@@ -44,18 +45,26 @@ var App = (function() {
 		tweetButton.addEventListener('click', onTweetButtonClicked);
 		tweetAtSoylentButton.addEventListener('click', onTweetAtSoylentButtonClicked);
 		socket.on('new tweet', onNewTweet);
+		socket.on('new connection', storeSocketID);
 		socket.on('already tweeted at this user', onAlreadyTweetedAtUser);
 	};
 
+	var storeSocketID = function(e) {
+		socketID = e.id;
+	}
+
 	var onNewTweet = function(e) {
 		var postedTweet = e.tweet;
-		if (postedTweet.errors) {
-			// The tweet had errors
-			stopWaiting(false, postedTweet.errors[0].message);
-		}
-		else {
-			// The tweet was successful
-			stopWaiting(true, 'You just tweeted.');
+		console.log(e);
+		if (e.id == socketID) {
+			if (postedTweet.errors) {
+				// The tweet had errors
+				stopWaiting(false, postedTweet.errors[0].message);
+			}
+			else {
+				// The tweet was successful
+				stopWaiting(true, 'You just tweeted.');
+			}
 		}
 	};
 

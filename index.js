@@ -63,9 +63,12 @@ class TwitterBot {
 	}
 	onIO() {
 		io.on('connection', socket => {
+			io.to(socket.id).emit('new connection', {
+				id: socket.id
+			});
 			socket.on('tweet button clicked', data => {
 				try {
-					this.postTweet(data);
+					this.postTweet(data, socket.id);
 				}
 				catch (e) {
 					console.log(e);
@@ -81,7 +84,8 @@ class TwitterBot {
 			});
 		});
 	}
-	postTweet(data) {
+	postTweet(data, id) {
+		let socketID = id;
 		const STORED_DATA = data;
 		const b64content = fs.readFileSync(STORED_DATA.image_path, { encoding: 'base64' });
 		this.twitterConnection.post('media/upload', { media_data: b64content }, (err, data, response) => {
@@ -99,7 +103,8 @@ class TwitterBot {
 						this.twitterConnection.post('statuses/update', params, (err, data, response) => {
 							console.log(data);
 							io.emit('new tweet', {
-								tweet: data
+								tweet: data,
+								id: socketID
 							});
 						});
 					}
